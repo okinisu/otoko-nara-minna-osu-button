@@ -9,10 +9,10 @@
 body{margin:0;min-height:100svh;display:grid;place-items:center;background:#f7f7f7;font-family:system-ui,sans-serif;overflow:hidden}
 .show{position:fixed;inset:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .2s;background:radial-gradient(ellipse at center,#fff9d7 0%,#ffd86a 24%,#f47bbd 56%,#8058ef 100%)}
 .celebrating .show{opacity:1}
-.rays{position:absolute;inset:-100vmax;background:repeating-conic-gradient(from 0deg,#ffda36 0deg,#ff8bd2 5deg,#bb71ff 10deg,#64dcff 15deg,#7ff5b2 20deg,#fff284 25deg,#ff9e6e 30deg,#ffda36 35deg);animation:spin 8s linear infinite}
-.rays:after{content:"";position:absolute;inset:0;background:radial-gradient(circle,#fff 0%,#fff9b9 5%,transparent 33%);mix-blend-mode:screen}
-.glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,#fff 0%,#fff5adcc 14%,transparent 54%);animation:pulse .5s ease-in-out infinite alternate}
-@keyframes spin{to{transform:rotate(360deg)}} @keyframes pulse{to{opacity:.45;transform:scale(1.2)}}
+.rays{position:absolute;inset:-80vmax;background:repeating-conic-gradient(from 0deg,transparent 0deg,rgba(255,255,255,.7) .4deg,transparent 1deg,transparent 3deg,rgba(255,231,85,.65) 3.5deg,transparent 4.5deg,transparent 7deg),conic-gradient(from 0deg,#ffdf21,#19e976,#00cfff,#514bff,#f32ad1,#ff2743,#ffb800,#ffed31,#f82bbf,#634aff,#00d6fd,#12ed69,#ffdf21);animation:spin 14s linear infinite}
+.rays:after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 1deg,transparent 0deg,rgba(255,255,255,.55) .12deg,transparent .35deg,transparent 2deg,rgba(255,223,80,.65) 2.15deg,transparent 2.4deg,transparent 4deg);mix-blend-mode:screen}
+.glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,#fff 0%,rgba(255,255,255,.98) 8%,rgba(255,251,187,.87) 16%,rgba(255,221,79,.32) 29%,transparent 50%);animation:pulse .8s ease-in-out infinite alternate}
+@keyframes spin{to{transform:rotate(360deg)}} @keyframes pulse{to{opacity:.75;transform:scale(1.08)}}
 button{position:relative;z-index:2;border:1px solid #67caff;border-radius:26px;padding:1.05em 1.6em;background:linear-gradient(#19aaff,#0062f6);color:white;font:700 clamp(1.15rem,4vw,1.8rem) system-ui,sans-serif;cursor:pointer;box-shadow:0 6px 0 #0649b3,0 10px 25px #005cfb77;transition:transform .1s,box-shadow .1s}
 button:active,button:disabled{transform:translateY(5px);box-shadow:0 1px 0 #0649b3,0 0 40px 12px #fff9} button:disabled{cursor:default} button:focus-visible{outline:3px solid #111;outline-offset:5px}
 canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}

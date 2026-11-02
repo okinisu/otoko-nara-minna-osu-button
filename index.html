@@ -34,7 +34,7 @@ button.addEventListener('click',()=>{
  running=true;button.disabled=true;document.body.classList.add('celebrating');
  const w=innerWidth,h=innerHeight,start=performance.now();
  const particles=Array.from({length:280},(_,i)=>{
-  const side=i%2?1:-1, angle=side===1?Math.PI*(1.05+Math.random()*.34):Math.PI*(1.61+Math.random()*.34);
+  const side=i%2?1:-1, angle=side===1?Math.PI*(1.61+Math.random()*.34):Math.PI*(1.05+Math.random()*.34);
   const speed=(.42+Math.random()*.72)*Math.max(w,h);
   return {x:side===1?0:w,y:h*(.85+Math.random()*.15),vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:5+Math.random()*12,color:colors[i%colors.length],rotation:Math.random()*7,spin:(Math.random()-.5)*15,delay:Math.random()*.55};
  });

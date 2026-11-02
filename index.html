@@ -7,9 +7,9 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;min-height:100svh;display:grid;place-items:center;background:#f7f7f7;font-family:system-ui,sans-serif;overflow:hidden}
-.show{position:fixed;inset:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .2s;background:#ffd900}
+.show{position:fixed;inset:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .2s;background:radial-gradient(ellipse at center,#fff9d7 0%,#ffd86a 24%,#f47bbd 56%,#8058ef 100%)}
 .celebrating .show{opacity:1}
-.rays{position:absolute;inset:-100vmax;background:repeating-conic-gradient(from 0deg,#ffdf00 0deg 4deg,#ff008c 5deg 9deg,#00cfff 10deg 14deg,#24ed50 15deg 19deg,#ffef39 20deg 24deg,#ff4b19 25deg 29deg);animation:spin 8s linear infinite}
+.rays{position:absolute;inset:-100vmax;background:repeating-conic-gradient(from 0deg,#ffda36 0deg,#ff8bd2 5deg,#bb71ff 10deg,#64dcff 15deg,#7ff5b2 20deg,#fff284 25deg,#ff9e6e 30deg,#ffda36 35deg);animation:spin 8s linear infinite}
 .rays:after{content:"";position:absolute;inset:0;background:radial-gradient(circle,#fff 0%,#fff9b9 5%,transparent 33%);mix-blend-mode:screen}
 .glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,#fff 0%,#fff5adcc 14%,transparent 54%);animation:pulse .5s ease-in-out infinite alternate}
 @keyframes spin{to{transform:rotate(360deg)}} @keyframes pulse{to{opacity:.45;transform:scale(1.2)}}
@@ -38,6 +38,7 @@ button.addEventListener('click',()=>{
   const speed=(.42+Math.random()*.72)*Math.max(w,h);
   return {x:side===1?0:w,y:h*(.85+Math.random()*.15),vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:5+Math.random()*12,color:colors[i%colors.length],rotation:Math.random()*7,spin:(Math.random()-.5)*15,delay:Math.random()*.55};
  });
+ const glitter=Array.from({length:420},()=>({x:Math.random()*w,y:Math.random()*h,size:.5+Math.random()*2.4,phase:Math.random()*7,color:colors[Math.floor(Math.random()*colors.length)]}));
  const stars=Array.from({length:55},()=>({x:Math.random()*w,y:Math.random()*h,size:3+Math.random()*13,phase:Math.random()*7}));
  function draw(now){
   const seconds=(now-start)/1000;
@@ -47,9 +48,20 @@ button.addEventListener('click',()=>{
   for(const p of particles){
    const t=seconds-p.delay;if(t<0)continue;
    const x=p.x+p.vx*t,y=p.y+p.vy*t+Math.max(w,h)*.42*t*t;
-   ctx.save();ctx.translate(x,y);ctx.rotate(p.rotation+p.spin*t);ctx.fillStyle=p.color;
-   ctx.shadowColor=p.color;ctx.shadowBlur=5;ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);ctx.restore();
+   ctx.save();ctx.translate(x,y);ctx.rotate(p.rotation+p.spin*t);
+   const shine=ctx.createLinearGradient(-p.size/2,-p.size/4,p.size/2,p.size/4);
+   shine.addColorStop(0,p.color);shine.addColorStop(.35,'#ffffff');shine.addColorStop(.52,p.color);shine.addColorStop(1,p.color);
+   ctx.fillStyle=shine;ctx.shadowColor=p.color;ctx.shadowBlur=7;ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);
+   ctx.fillStyle='rgba(255,255,255,.8)';ctx.fillRect(-p.size*.4,-p.size*.23,p.size*.65,Math.max(.5,p.size*.06));ctx.restore();
   }
+  for(const g of glitter){
+   const shimmer=Math.pow(Math.abs(Math.sin(seconds*4+g.phase)),8);
+   ctx.globalAlpha=shimmer*.9*Math.min(1,(3-seconds)*2);
+   ctx.fillStyle=shimmer>.75?'#fff':g.color;
+   ctx.shadowColor=g.color;ctx.shadowBlur=shimmer*8;
+   ctx.beginPath();ctx.arc(g.x,g.y,g.size*(.5+shimmer),0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=Math.min(1,(3-seconds)*2);ctx.shadowBlur=0;
   for(const s of stars){
    const a=.35+.65*Math.abs(Math.sin(seconds*4+s.phase)), size=s.size*(.7+.5*a);
    ctx.save();ctx.translate(s.x,s.y);ctx.globalAlpha=a;ctx.fillStyle='#fff';ctx.shadowColor='#ffe700';ctx.shadowBlur=14;
